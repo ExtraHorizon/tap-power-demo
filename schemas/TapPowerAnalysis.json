@@ -1,0 +1,75 @@
+{
+    "name": "tapPowerAnalysis",
+    "description": "Analysis of tap power",
+    "createMode": "default",
+    "readMode": "default",
+    "updateMode": "default",
+    "deleteMode": "permissionRequired",
+    "statuses": {
+        "ready": {}
+    },
+    "creationTransition": {
+        "type": "manual",
+        "toStatus": "ready",
+        "conditions": [
+            {
+                "type": "input",
+                "configuration": {
+                    "type": "object",
+                    "properties": {
+                        "tps": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "timestamp": {
+                                        "type": "number"
+                                    },
+                                    "value": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "timestamp",
+                                    "value"
+                                ]
+                            }
+                        },
+                        "document": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "tps",
+                        "document"
+                    ]
+                }
+            }
+        ],
+        "actions": []
+    },
+    "transitions": [],
+    "properties": {
+        "tps": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "type": "number"
+                    },
+                    "value": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "timestamp",
+                    "value"
+                ]
+            }
+        },
+        "document": {
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,67 @@
+{
+  "name": "tapPowerMeasurements",
+  "description": "Raw measurement of tapping power",
+  "createMode": "default",
+  "readMode": "default",
+  "updateMode": "default",
+  "deleteMode": "permissionRequired",
+  "statuses": {
+    "new": {},
+    "processed": {}
+  },
+  "creationTransition": {
+    "type": "manual",
+    "toStatus": "new",
+    "conditions": [
+      {
+        "type": "input",
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "measurements": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "start": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "measurements",
+            "start"
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "task",
+        "functionName": "ProcessTapMeasurements",
+        "data": {}
+      }
+    ]
+  },
+  "transitions": [
+    {
+      "name": "process",
+      "type": "manual",
+      "fromStatuses": [
+        "new"
+      ],
+      "toStatus": "processed"
+    }
+  ],
+  "properties": {
+    "measurements": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "start": {
+      "type": "number"
+    }
+  }
+}

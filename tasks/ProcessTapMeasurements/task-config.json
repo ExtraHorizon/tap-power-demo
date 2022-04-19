@@ -1,0 +1,14 @@
+{
+  "name": "ProcessTapMeasurements",
+  "description": "ProcessTapMeasurements task",
+  "path": "build",
+  "entryPoint": "index.handler",
+  "runtime": "nodejs14.x",
+  "environment": {
+    "API_HOST": "$API_HOST",
+    "API_OAUTH_CONSUMER_KEY": "$API_OAUTH_CONSUMER_KEY",
+    "API_OAUTH_CONSUMER_SECRET": "$API_OAUTH_CONSUMER_SECRET",
+    "API_OAUTH_TOKEN": "$API_OAUTH_TOKEN",
+    "API_OAUTH_TOKEN_SECRET": "$API_OAUTH_TOKEN_SECRET"
+  }
+}

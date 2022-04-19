@@ -1,0 +1,23 @@
+{
+  "Please log in": "Gelieve in te loggen",
+  "Password": "Wachtwoord",
+  "Email": "Email",
+  "Host": "Host",
+  "Remember me": "Onthou mij",
+  "Log in": "Log in",
+  "errors": {
+    "NetworkHost": "Netwerk fout (verkeerde host?)",
+    "InvalidEmail": "Fout email adres",
+    "InvalidPassword": "Fout Wachtwoord",
+    "LoginFailure": "Fout tijdens inloggen",
+    "IncorrectOTPCode": "Foute OTP code",
+    "Unknown": "Onbekende fout",
+    "DelayAttempts": "Te veel pogingen in korte tijd. Gelieve even te wachten."
+  },
+  "PleaseLogin": "Gelieve in te loggen",
+  "ForgotPassword": "Wachtwoord vergeten",
+  "Enter OTP code": "Geef OTP code in",
+  "OTP": "OTP",
+  "recoveryCodes": "Recovery code",
+  "Code": "Code"
+}

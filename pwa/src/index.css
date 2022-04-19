@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white;
+    @apply text-secondary-dark;
+    @apply select-none;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: contain;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+  th, td {
+    padding: 5px;
+  }
+
+  .family-main {
+    font-family: "Inter";
+  }
+
+  .family-secondary {
+    font-family: "Rubik";
+  }
+
+  .exh-titel {
+    @apply text-4xl;
+    @apply text-dark;
+    @apply font-medium;
+    font-family: "Rubik";
+  }
+  .exh-table-row {
+    @apply border-b; 
+    @apply border-[#C3CFE2];
+    @apply last:border-b-0;
+    @apply cursor-pointer;
+    @apply text-medium;
+    @apply font-light;
+    @apply hover:bg-[#F3F7FF];
+    @apply hover:text-primary-light;
+    @apply hover:font-medium;
+  }
+  .exh-table {
+    @apply table-fixed;
+    @apply w-full;
+  }
+  .exh-table-head {
+    @apply bg-[#F3F7FF];
+  }
+  .exh-table-head-cell {
+    @apply font-medium;
+  }
+  .exh-table-cell {
+    @apply p-2;
+    @apply text-sm;
+  }
+  .exh-panel {
+    @apply bg-white;
+    @apply rounded-3xl;
+    @apply shadow-[0px_0px_20px_rgba(93,136,251,0.2)];
+  }
+
+  .exh-input {
+    @apply focus:outline-1; 
+    @apply focus:outline;
+    @apply focus:outline-primary-light;
+    @apply text-base;
+    @apply rounded-sm;
+    @apply bg-[#F3F7FF];
+    @apply p-2;
+    @apply placeholder:italic;
+  }
+  .text-md {
+    @apply text-base;
+  }
+}
+  
+
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    font: inherit;
+    width: 18px;
+    height: 18px;
+    border: 1px solid currentColor;
+    border-radius: 5px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;  
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 13px;
+    height: 13px;
+    border-radius: 4px;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 20px 20px currentColor;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+

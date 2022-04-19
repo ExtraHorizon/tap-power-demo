@@ -1,0 +1,7 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "project": "./tsconfig.eslint.json"
+  }
+}
