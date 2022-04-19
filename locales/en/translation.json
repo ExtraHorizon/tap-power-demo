@@ -1,0 +1,23 @@
+{
+  "Please log in": "Please log in",
+  "Password": "Password",
+  "Email": "Email",
+  "Host": "Host",
+  "Remember me": "Remember me",
+  "Log in": "Log in",
+  "errors": {
+    "NetworkHost": "Network error (wrong host?)",
+    "InvalidEmail": "Invalid email",
+    "InvalidPassword": "Invalid password",
+    "LoginFailure": "Failed to log in",
+    "IncorrectOTPCode": "Incorrect OTP code",
+    "Unknown": "Unknown error",
+    "DelayAttempts": "Too many attempts in a short period. Try again later"
+  },
+  "PleaseLogin": "Please login to your account",
+  "ForgotPassword": "Forgot password",
+  "Enter OTP code": "Please enter OTP code",
+  "OTP": "OTP",
+  "recoveryCodes": "Recovery code",
+  "Code": "Code"
+}
