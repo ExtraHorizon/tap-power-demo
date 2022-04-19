@@ -8852,7 +8852,7 @@ typescript-json-decoder@^1.0.6:
   resolved "https://registry.yarnpkg.com/typescript-json-decoder/-/typescript-json-decoder-1.0.6.tgz#f5a44c163d9bba8fc5b46881fa5cc823d840c97d"
   integrity sha512-acSpXrCf7LTEolJbqQDo6eP7h/mpO2u9VGJB4N6WvTcvKQdBIvHOXImXibn7N93kVwIoJbdikAOFdD8VDoeJaQ==
 
-typescript@^4.6.3:
+typescript@^4.5.5:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
   integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==

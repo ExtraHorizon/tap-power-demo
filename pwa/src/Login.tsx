@@ -55,7 +55,7 @@ function OTPBox(props: {t: any; methods: any; onSubmit: (props:any) => void;}) {
     e.stopPropagation();
     props.onSubmit({ code, method });
   };
-  const memoSelectCallback = useCallback(key => { setMethod(key); }, [setMethod]);
+  const memoSelectCallback = useCallback((key: any) => { setMethod(key); }, [setMethod]);
   return (
     <form action='#' onSubmit={submit}>
       <div className="font-light text-[#747A8E] mb-8">{ props.t('Enter OTP code') }</div>
