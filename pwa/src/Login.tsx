@@ -8,11 +8,12 @@ import ErrorBox from './components/ErrorBox';
 import { ConfigStorage } from './configStorage';
 import { CLIENT_ID, HOST } from './constants';
 import EDropdown from './components/EDropdown';
-import { loginState as globalLoginState } from './AppState';
+import { loginState as globalLoginState, needRegistration } from './AppState';
 
 function LoginPasswordBox(props: {
   t:any;
   onSubmit: (props:any) => void;
+  onRegister: () => void;
 }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,6 +32,7 @@ function LoginPasswordBox(props: {
           <input id="password" type="password" placeholder={props.t('Password')} className="exh-input my-2 w-full" value={password} onChange={(e:any) => setPassword(e.target?.value)} />
           <div className="flex flex-row justify-between mt-8" />
           <EButton className="mt-2 w-full">LOGIN</EButton>
+          <div className="mt-2">No account yet?<a href="#" className="ml-2 underline" onClick={props.onRegister}>Register</a></div>
         </div>
       </form>
     </div>
@@ -68,6 +70,7 @@ function OTPBox(props: {t: any; methods: any; onSubmit: (props:any) => void;}) {
 
 function Login(props: { t: any; configStorage: ConfigStorage; }) {
   const [_, setLoggedInState] = useRecoilState(globalLoginState);
+  const [__, setNeedRegistration] = useRecoilState(needRegistration);
   interface LoginState {
     phase: 'start' | 'end' | 'otpNeeded' ;
     sdk?: any;
@@ -155,8 +158,14 @@ function Login(props: { t: any; configStorage: ConfigStorage; }) {
             <div className="-mt-2 pl-10 font-medium text-4xl">POWER!</div>
           </div>
           {
-            loginState.phase === 'otpNeeded' ? (<OTPBox t={props.t} methods={loginState.otp?.methods} onSubmit={enterOtp}/>) : (<LoginPasswordBox t={props.t} onSubmit={login}/>
-            )
+            loginState.phase === 'otpNeeded' ?
+              (<OTPBox t={props.t} methods={loginState.otp?.methods} onSubmit={enterOtp}/>) :
+              (
+                <LoginPasswordBox
+                  t={props.t}
+                  onSubmit={login}
+                  onRegister={() => { setNeedRegistration(true); }}/>
+              )
           }
           <div className='h-24 mt-8'>
             <ErrorBox className="w-full" timeout={3000} close={() => setError('')}>{ error }</ErrorBox>
