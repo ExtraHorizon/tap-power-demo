@@ -1,0 +1,36 @@
+name: Schema Deploy
+
+on: 
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'schemas/**'
+
+jobs:
+  build-and-deploy:
+    environment: Development
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Create .npmrc
+        run: |
+          echo "@extrahorizon:registry=https://npm.pkg.github.com" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> .npmrc
+
+      - name: Install 🔧  
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: Deploy 🚀
+        run: |
+          node_modules/.bin/exh sync --schemas
+        env:
+          API_HOST: ${{ secrets.API_HOST }}
+          API_OAUTH_CONSUMER_KEY: ${{ secrets.API_OAUTH_CONSUMER_KEY }}
+          API_OAUTH_CONSUMER_SECRET: ${{ secrets.API_OAUTH_CONSUMER_SECRET }}
+          API_OAUTH_TOKEN: ${{ secrets.API_OAUTH_TOKEN }}
+          API_OAUTH_TOKEN_SECRET: ${{ secrets.API_OAUTH_TOKEN_SECRET }}

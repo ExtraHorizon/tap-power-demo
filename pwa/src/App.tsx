@@ -6,11 +6,12 @@ import Login from './Login';
 import configStorage from './configStorage';
 import './i18n';
 import { Auth } from './Auth';
-import { loginState } from './AppState';
+import { loginState, needRegistration } from './AppState';
 import BottomBar from './components/BottomBar';
 import Measure from './components/Measure';
 import Analyse from './components/Analyse';
 import Me from './components/Me';
+import Register from './Register';
 
 const menu = [
   { label: 'Measure!', icon: CalculatorIcon },
@@ -19,6 +20,7 @@ const menu = [
 
 function App() {
   const [loggedInState] = useRecoilState(loginState);
+  const [registrationNeeded] = useRecoilState(needRegistration);
   const [selected, setSelected] = useState(menu[0].label);
 
   const onSelect = useCallback((label:string) => {
@@ -29,6 +31,9 @@ function App() {
 
   return (
     <Suspense fallback="Loading">
+      <Transition show={registrationNeeded} enter="duration-300" enterFrom="opacity-0" enterTo="opacity-100">
+        <Register configStorage={configStorage}/>
+      </Transition>
       <Transition show={loggedInState} enter="duration-300" enterFrom="opacity-0" enterTo="opacity-100">
         <Auth configStorage={configStorage}>
           <Transition className={screenClass} show={selected === 'Measure!'} enter="duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="duration-300" leaveFrom="opacity-100" leaveTo="opacity-0" >
@@ -43,7 +48,7 @@ function App() {
           <BottomBar items={menu} onSelect={onSelect}/>
         </Auth>
       </Transition>
-      <Transition show={!loggedInState} enter="duration-300" enterFrom="opacity-0" enterTo="opacity-100">
+      <Transition show={!loggedInState && !registrationNeeded} enter="duration-300" enterFrom="opacity-0" enterTo="opacity-100">
         <Login configStorage={configStorage}/>
       </Transition>
     </Suspense>
