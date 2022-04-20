@@ -1,0 +1,26 @@
+{
+  "name": "tap-power-demo",
+  "version": "1.0.0",
+  "description": "This is an example Extra Horizon application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ExtraHorizon/tap-power-demo.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ExtraHorizon/tap-power-demo/issues"
+  },
+  "homepage": "https://github.com/ExtraHorizon/tap-power-demo#readme",
+  "private": true,
+  "workspaces": [
+    "pwa"
+  ],
+  "dependencies": {
+    "@extrahorizon/exh-cli": "^0.0.11"
+  }
+}
