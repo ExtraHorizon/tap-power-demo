@@ -1,12 +1,10 @@
 import { createClient } from '@extrahorizon/javascript-sdk';
-import { requestLogger } from 'axios-logger';
 import { apiConfig } from '../config';
 
 export const sdk = createClient({
   host: apiConfig.host,
   consumerKey: apiConfig.oauthConsumer.key,
   consumerSecret: apiConfig.oauthConsumer.secret,
-  requestLogger,
 });
 
 export async function authenticateSDK() {

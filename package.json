@@ -18,7 +18,8 @@
   "homepage": "https://github.com/ExtraHorizon/tap-power-demo#readme",
   "private": true,
   "workspaces": [
-    "pwa"
+    "pwa",
+    "tasks/ProcessTapMeasurements"
   ],
   "dependencies": {
     "@extrahorizon/exh-cli": "^0.0.11"
