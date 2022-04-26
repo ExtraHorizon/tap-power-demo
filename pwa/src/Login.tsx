@@ -1,27 +1,24 @@
-import { useState, useCallback } from 'react';
-import { createOAuth2Client, MfaRequiredError } from '@extrahorizon/javascript-sdk';
+import { useState } from 'react';
+import { createClient, createOAuth2Client, MfaRequiredError } from '@extrahorizon/javascript-sdk';
 import { withTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import LogoIcon from './images/Logo-icon-color.svg';
 import EButton from './components/EButton';
 import ErrorBox from './components/ErrorBox';
 import { ConfigStorage } from './configStorage';
-import { CLIENT_ID, HOST } from './constants';
-import EDropdown from './components/EDropdown';
-import { loginState as globalLoginState, needRegistration } from './AppState';
+import { CLIENT_ID, FIXED_PWD, HOST } from './constants';
+import { loginState as globalLoginState } from './AppState';
 
 function LoginPasswordBox(props: {
   t:any;
-  onSubmit: (props:any) => void;
-  onRegister: () => void;
+  onSubmit: (email:string) => void;
 }) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const submit = (e:any) => {
     e.preventDefault();
     e.stopPropagation();
-    props.onSubmit({ email, password });
+    props.onSubmit(email);
   };
 
   return (
@@ -29,68 +26,46 @@ function LoginPasswordBox(props: {
       <form action='#' onSubmit={submit}>
         <div>
           <input id="email" type="text" placeholder={props.t('Email')} className="exh-input my-2 w-full" value={email} onChange={(e:any) => setEmail(e.target?.value)} />
-          <input id="password" type="password" placeholder={props.t('Password')} className="exh-input my-2 w-full" value={password} onChange={(e:any) => setPassword(e.target?.value)} />
           <div className="flex flex-row justify-between mt-8" />
           <EButton className="mt-2 w-full">LOGIN</EButton>
-          <div className="mt-2">No account yet?<a href="#" className="ml-2 underline" onClick={props.onRegister}>Register</a></div>
         </div>
       </form>
     </div>
   );
 }
 
-function OTPBox(props: {t: any; methods: any; onSubmit: (props:any) => void;}) {
-  const [code, setCode] = useState('');
-  const [method, setMethod] = useState('');
-
-  const typeMap = {
-    totp: props.t('OTP'),
-    recoveryCodes: props.t('recoveryCodes'),
-  };
-
-  const [otpOptions] = useState(props.methods.map(
-    (m:{id:string; name: string; type: 'totp'| 'recoveryCodes';}) => ({ key: m.id, value: m.name ? m.name : typeMap[m.type] })
-  ));
-
-  const submit = (e:any) => {
-    e.preventDefault();
-    e.stopPropagation();
-    props.onSubmit({ code, method });
-  };
-  const memoSelectCallback = useCallback((key: any) => { setMethod(key); }, [setMethod]);
-  return (
-    <form action='#' onSubmit={submit}>
-      <div className="font-light text-[#747A8E] mb-8">{ props.t('Enter OTP code') }</div>
-      <EDropdown className="w-full" items={otpOptions} selected={method} onChange={memoSelectCallback}/>
-      <input className="exh-input w-full my-2" id="code" type="text" placeholder="OTP code" value={code} onChange={(e:any) => setCode(e.target?.value)} />
-      <EButton type="submit" className="mt-2 ml-2">{ props.t('Log in') }</EButton>
-    </form>
-  );
-}
-
 function Login(props: { t: any; configStorage: ConfigStorage; }) {
   const [_, setLoggedInState] = useRecoilState(globalLoginState);
-  const [__, setNeedRegistration] = useRecoilState(needRegistration);
-  interface LoginState {
-    phase: 'start' | 'end' | 'otpNeeded' ;
-    sdk?: any;
-    otp?: {
-      token: string;
-      methods: any;
-    };
-  }
-  const [loginState, setLoginState] = useState({ phase: 'start' } as LoginState);
   const [error, setError] = useState('');
+  const [loginState, setLoginState] = useState('');
 
   const saveLogin = (refreshToken: string) => {
     props.configStorage.setToken(refreshToken, true);
-    // console.log('Setting login state to true');
     setLoggedInState(true);
   };
 
+  const register = async (email: string) => {
+    const sdk = createClient({ host: HOST, clientId: CLIENT_ID });
+
+    try {
+      await sdk.users.createAccount({
+        firstName: 'Demo',
+        lastName: 'App',
+        email,
+        password: FIXED_PWD,
+        phoneNumber: '0123456789',
+        birthday: '1960-06-06',
+        gender: 0,
+        country: 'BE',
+        language: 'EN',
+      });
+    } catch (err: any) {
+      setError(`Failed to login: ${err.message}`);
+    }
+  };
+
   /* Handles username/password login enter */
-  const login = async ({ email, password }:
-  {email:string; password:string;}) => {
+  const login = async (email : string) => {
     const sdkInstance = createOAuth2Client({
       host: HOST,
       clientId: CLIENT_ID,
@@ -98,51 +73,44 @@ function Login(props: { t: any; configStorage: ConfigStorage; }) {
     try {
       const resp = await sdkInstance.auth.authenticate({
         username: email,
-        password,
+        password: FIXED_PWD,
       });
       /* Save credentials & transition to the end state */
       saveLogin(resp.refreshToken);
+      return true;
     } catch (err: any) {
-      /* Check if OTP is needed */
-      if (err instanceof MfaRequiredError) {
-        setLoginState({ ...loginState,
-          phase: 'otpNeeded',
-          sdk: sdkInstance,
-          otp: { methods: err.response?.mfa?.methods, token: err.response?.mfa?.token } });
-        return;
-      }
-
       /* All error cases from here on */
       if (err.message === 'Network Error') {
         setError(props.t('errors.NetworkHost'));
-        return;
+        throw new Error('Network error');
       }
       switch (err.response.error) {
         case 'invalid_request':
           setError(props.t('errors.InvalidEmail'));
-          break;
+          throw new Error('Invalid email?');
         case 'invalid_grant':
-          setError(props.t('errors.InvalidPassword'));
-          break;
+          // setError(props.t('errors.InvalidPassword'));
+          return false;
         default: setError(props.t('errors.LoginFailure'));
       }
     }
+    return false;
   };
 
-  /* Handles OTP code entering. All other info should be in login state */
-  const enterOtp = async ({ code, method }: { code: string; method: string;}) => {
-    /* enter otp code here */
+  const handleLoginSequence = async (email: string) => {
     try {
-      const result = await loginState.sdk.auth.confirmMfa({ token: loginState.otp?.token || '', methodId: method, code }) as any;
-      saveLogin(result.refreshToken);
-    } catch (err:any) {
-      if (err.message === 'The supplied MFA code is incorrect') {
-        setError(props.t('errors.IncorrectOTPCode'));
-      } else if (err.message.indexOf('The MFA authentication attempt was too soon after a failed attempt') !== -1) {
-        setError(props.t('errors.DelayAttempts'));
-      } else {
-        setError(props.t('errors.Unknown'));
+      setLoginState('Checking... ');
+      if (!await login(email)) {
+        setLoginState('Registering ... ');
+        await register(email);
+        setLoginState('Logging in... ');
+        if (!await login(email)) {
+          setError(props.t('Failed to login and/or register'));
+        }
       }
+    } catch (err) {
+      console.log(err);
+      setError(props.t('Failed to login and/or register'));
     }
   };
 
@@ -158,15 +126,11 @@ function Login(props: { t: any; configStorage: ConfigStorage; }) {
             <div className="-mt-2 pl-10 font-medium text-4xl">POWER!</div>
           </div>
           {
-            loginState.phase === 'otpNeeded' ?
-              (<OTPBox t={props.t} methods={loginState.otp?.methods} onSubmit={enterOtp}/>) :
-              (
-                <LoginPasswordBox
-                  t={props.t}
-                  onSubmit={login}
-                  onRegister={() => { setNeedRegistration(true); }}/>
-              )
+            <LoginPasswordBox
+              t={props.t}
+              onSubmit={handleLoginSequence}/>
           }
+          <div className="mt-2 font-bold">{ loginState }</div>
           <div className='h-24 mt-8'>
             <ErrorBox className="w-full" timeout={3000} close={() => setError('')}>{ error }</ErrorBox>
           </div>
