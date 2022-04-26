@@ -109,7 +109,6 @@ function Login(props: { t: any; configStorage: ConfigStorage; }) {
         }
       }
     } catch (err) {
-      console.log(err);
       setError(props.t('Failed to login and/or register'));
     }
   };
