@@ -6,6 +6,7 @@ on:
       - 'demo-app'
     paths:
       - 'pwa/**'
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:

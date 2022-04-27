@@ -6,6 +6,7 @@ on:
       - 'demo-app'
     paths:
       - 'tasks/**'
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
