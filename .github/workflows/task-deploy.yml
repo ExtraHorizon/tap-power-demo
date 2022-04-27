@@ -3,7 +3,7 @@ name: Task Deploy
 on: 
   push:
     branches:
-      - 'master'
+      - 'demo-app'
     paths:
       - 'tasks/**'
 

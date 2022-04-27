@@ -3,7 +3,7 @@ name: Schema Deploy
 on: 
   push:
     branches:
-      - 'master'
+      - 'demo-app'
     paths:
       - 'schemas/**'
 
