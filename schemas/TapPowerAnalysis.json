@@ -37,11 +37,15 @@
                         },
                         "document": {
                             "type": "string"
+                        },
+                        "averageTps": {
+                            "type": "number"
                         }
                     },
                     "required": [
                         "tps",
-                        "document"
+                        "document",
+                        "averageTps"
                     ]
                 }
             }
@@ -70,6 +74,9 @@
         },
         "document": {
             "type": "string"
+        },
+        "averageTps": {
+            "type": "number"
         }
     }
 }

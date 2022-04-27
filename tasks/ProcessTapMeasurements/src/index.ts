@@ -64,7 +64,7 @@ export async function handler(data: Data) {
   if(!resultSchema) {
     throw new Error("Result schema not found!")
   }
-  const analysisDocument = await sdk.data.documents.create(resultSchema.id, { tps, document: document.id },);
+  const analysisDocument = await sdk.data.documents.create(resultSchema.id, { tps, document: document.id, averageTps: document.data.measurements.length/30 },);
   if(!analysisDocument) {
     throw new Error("Failed to store analysis document")
   }
