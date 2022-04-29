@@ -120,7 +120,7 @@ function Login(props: { t: any; configStorage: ConfigStorage; }) {
           <img src={LogoIcon} className="shrink p-3" />
         </div>
         <div className="self-center grow flex flex-col justify-center lg:w-1/2 w-3/4">
-          <div id="central-section" className="flex flex-col items-start self-start mb-12">
+          <div id="central-section" className="flex flex-col items-start self-center mb-12">
             <div className="text-primary-main font-bold text-8xl" >TAP</div>
             <div className="-mt-2 pl-10 font-medium text-4xl">POWER!</div>
           </div>
