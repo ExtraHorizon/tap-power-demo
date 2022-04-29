@@ -114,7 +114,7 @@ function Login(props: { t: any; configStorage: ConfigStorage; }) {
   };
 
   return (
-    <div className="absolute top-0 bottom-0 left-0 right-0 flex flex-row bg-white" >
+    <div className="absolute top-0 bottom-0 left-0 right-0 flex flex-row" >
       <div className="w-full flex flex-col items-center" >
         <div className="m-4 w-1/4 rounded-lg shadow-[0px_0px_20px_0px_rgba(0,0,0,0.102)]">
           <img src={LogoIcon} className="shrink p-3" />
